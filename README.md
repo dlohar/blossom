@@ -63,9 +63,9 @@ Supported types: Numerical (int, float, double), Array, Pointer, Structure
 #### Kernel input array size ####
 - numerical\_kernel**i**\_**j**\_size = <array\_len> (**j** indicates **j**th input of kernel **i** is an array of <array\_len>)
 
-### Running Blossom for one input program ###
-- ``` ./blossom.sh <file> <language> <time> <bb> (for blackbox)```
-- ``` ./blossom.sh <file> <language> <time> <guided-bb> <mutants> (for guided- blackbox)```
+### Running Blossom on the test program ###
+- ``` ./blossom.sh test.c c <time> bb (for blackbox)```
+- ``` ./blossom.sh test.c c <time> guided-bb <mutants> (for guided- blackbox)```
 
 ### Running all benchmarks ###
 (from the scripts directory)

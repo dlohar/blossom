@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # usage: ./build-guidedBB.sh 50 5
-# params: blackbox timeout (in minutes), # mutations
+# params: guided-blackbox timeout (in minutes), # mutations
 
 rust_benchmarks=('arclength' 'linearSVC' 'lulesh' 'invertedPendulum' 'rayCasting' 'nbody')
 cpp_benchmarks=('lulesh' 'molecularDynamics' 'reactorSimulation')
@@ -24,8 +24,8 @@ do
   seed=$RANDOM
   echo ${i} >> seed.txt
   echo ${seed} >> seed.txt
-  $LLVM_DIR/build/bin/clang++ -emit-llvm -c ../../../modified-benchmarks/c++/$i/$i.cc -o busy-files/$i.bc
-  $LLVM_DIR/build/bin/opt -load ../../../src/generateRange/guided-black-box-pass/built/guided_black_box_pass.so -guided-blackbox  -time ${runtime} -seed ${seed} -mutations ${mutations} -lang c++ -config ../../../modified-benchmarks/c++/$i/$i.config < busy-files/${i}.bc > busy-files/${i}_transform.bc 2>/dev/null
+  $LLVM_DIR/build/bin/clang++ -emit-llvm -c ../../benchmarks/c++/$i/$i.cc -o busy-files/$i.bc
+  $LLVM_DIR/build/bin/opt -load ../../src/guided-black-box-pass/built/guided_black_box_pass.so -guided-blackbox  -time ${runtime} -seed ${seed} -mutations ${mutations} -lang c++ -config ../../benchmarks/c++/$i/$i.config < busy-files/${i}.bc > busy-files/${i}_transform.bc 2>/dev/null
   $LLVM_DIR/build/bin/llc -filetype=obj busy-files/${i}_transform.bc
   $LLVM_DIR/build/bin/clang++ busy-files/${i}_transform.o -o build/${i}.out
 done
@@ -39,8 +39,8 @@ do
   seed=$RANDOM
   echo ${i} >> seed.txt
   echo ${seed} >> seed.txt
-  $LLVM_DIR/build/bin/clang -emit-llvm -c ../../../modified-benchmarks/c/$i/$i.c -o busy-files/$i.bc
-  $LLVM_DIR/build/bin/opt -load ../../../src/generateRange/guided-black-box-pass/built/guided_black_box_pass.so -guided-blackbox -time ${runtime} -seed ${seed} -mutations ${mutations} -lang c -config ../../../modified-benchmarks/c/$i/$i.config < busy-files/${i}.bc > busy-files/${i}_transform.bc 2>/dev/null
+  $LLVM_DIR/build/bin/clang -emit-llvm -c ../../benchmarks/c/$i/$i.c -o busy-files/$i.bc
+  $LLVM_DIR/build/bin/opt -load ../../src/guided-black-box-pass/built/guided_black_box_pass.so -guided-blackbox -time ${runtime} -seed ${seed} -mutations ${mutations} -lang c -config ../../benchmarks/c/$i/$i.config < busy-files/${i}.bc > busy-files/${i}_transform.bc 2>/dev/null
   $LLVM_DIR/build/bin/llc -filetype=obj busy-files/${i}_transform.bc
   $LLVM_DIR/build/bin/clang busy-files/${i}_transform.o -o build/${i}.out -lm
 done
@@ -54,8 +54,8 @@ do
   seed=$RANDOM
   echo ${i} >> seed.txt
   echo ${seed} >> seed.txt
-  rustc --crate-type lib -g --emit=llvm-bc ../../../modified-benchmarks/rust/$i/$i.rs -o busy-files/$i.bc -A warnings
-  $LLVM_DIR/build/bin/opt -load ../../../src/generateRange/guided-black-box-pass/built/guided_black_box_pass.so -guided-blackbox -time ${runtime} -seed ${seed} -mutations ${mutations} -lang rust -config ../../../modified-benchmarks/rust/$i/$i.config < busy-files/${i}.bc > busy-files/${i}_transform.bc 2>/dev/null
+  rustc --crate-type lib -g --emit=llvm-bc ../../benchmarks/rust/$i/$i.rs -o busy-files/$i.bc -A warnings
+  $LLVM_DIR/build/bin/opt -load ../../src/guided-black-box-pass/built/guided_black_box_pass.so -guided-blackbox -time ${runtime} -seed ${seed} -mutations ${mutations} -lang rust -config ../../benchmarks/rust/$i/$i.config < busy-files/${i}.bc > busy-files/${i}_transform.bc 2>/dev/null
   $LLVM_DIR/build/bin/llc -filetype=obj busy-files/${i}_transform.bc
   $LLVM_DIR/build/bin/clang++ -Xlinker $RUST_DIR busy-files/${i}_transform.o -o build/${i}_rust.out
 done

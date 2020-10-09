@@ -30,7 +30,10 @@ seed=$RANDOM
 echo ${benchmark} >> seed.txt
 echo ${seed} >> seed.txt
 
-if [ ${lang} != "rust" ]
+if [ ${language} == "c" ]
+then
+  $LLVM_DIR/build/bin/clang -emit-llvm -c ${benchmark} -o busy-files/${filename}.bc
+elif [ ${language} == "c++" ]
 then
   $LLVM_DIR/build/bin/clang++ -emit-llvm -c ${benchmark} -o busy-files/${filename}.bc
 else
@@ -46,10 +49,10 @@ fi
 
 $LLVM_DIR/build/bin/llc -filetype=obj busy-files/${filename}_transform.bc
 
-if [ ${lang} == "c" ]
+if [ ${language} == "c" ]
 then
   $LLVM_DIR/build/bin/clang -O3 busy-files/${filename}_transform.o -o ${filename}.out -lm
-elif [ ${lang} == "c++" ]
+elif [ ${language} == "c++" ]
 then
   $LLVM_DIR/build/bin/clang++ -O3 busy-files/${benchmark}_transform.o -o ${filename}.out
 else
@@ -62,4 +65,6 @@ rm -r busy-files
 echo "**************** Code instrumention done!! ***************************"
 
 echo "Running benchmark: "${filename}""
-${filename}.out > results/${filename}.log
+./${filename}.out > ${filename}.log
+rm ${filename}.out
+
