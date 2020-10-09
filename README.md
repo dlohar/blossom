@@ -2,7 +2,7 @@
 Blossom fuzzes an input program to generate ranges of the identified numerical kernels in the program. It has two fuzzing techniques: 1) blackbox fuzzing that randomly generates program inputs and monitors the ranges of kernel inputs and 2) guided blackbox fuzzing that generates program inputs specifically with the objective to expand the ranges of kernel inputs.
 
 
-### Software Dependencies ###
+## Software Dependencies ##
 - CMAKE
 - LLVM 10
 
@@ -11,7 +11,7 @@ Blossom fuzzes an input program to generate ranges of the identified numerical k
 - rustfilt
 
 
-#### Installation Instructions ####
+### Installation Instructions ###
 CMAKE:
 - ``` sudo apt-get install cmake ```
 
@@ -30,50 +30,51 @@ Rust:
 - ``` cargo install rustfilt ```
 
 
-### Building Blossom ###
+## Building Blossom ##
 (from black-box-pass / guided-black-box-pass directory)
 
 - ``` cmake -DLT_LLVM_INSTALL_DIR=<llvm_install_directory>/llvm-project/build ```
 - ``` make ```
 
 
-### Running Blossom ###
+## Running Blossom ##
 
 It requires an input program file and a configuration file. The configuration file needs to have the same name as the program file with .config as the extension.
 
-#### Configuration File Instructions ####
+### Configuration File Instructions ###
 The configuration file lists the program input ranges.
 
 Supported types: Numerical (int, float, double), Array, Pointer, Structure
 
-##### Numerical type #####
+#### Numerical type ####
 - main\_**i**\_min = <lower\_limit> ( **i** indicates the argument number)
 - main\_**i**\_min = <upper\_limit>
 
-##### Arrays #####
+#### Arrays ####
 - main\_i\_size = <array_len>
 - main\_i\_**j\_k**\_min = <lower\_limit> (**j\_k** indicates **j_k**th element of the array, supports higher dimensions)
 - main\_i\_**j\_k**\_max = <upper\_limit>
 
-##### Pointers #####
+#### Pointers ####
 - main\_i\_size = <ptr_len>
 - main\_i\_min = <lower\_limit>
 - main\_i\_max = <upper\_limit>
 
-##### Kernel input array size #####
+#### Kernel input array size ####
 - numerical\_kernel**i**\_**j**\_size = <array\_len> (**j** indicates **j**th input of kernel **i** is an array of <array\_len>)
 
-##### Running Blossom for one input program #####
+### Running Blossom for one input program ###
 - ``` ./blossom.sh <file> <language> <time> <bb> (for blackbox)```
 - ``` ./blossom.sh <file> <language> <time> <guided-bb> <mutants> (for guided- blackbox)```
 
-#### Running all benchmarks ####
+### Running all benchmarks ###
 (from the scripts directory)
 
 - ``` ./blackboxFuzzer.sh <time> <iteration> ```
 - ``` ./guidedBlackboxFuzzer.sh <time> <mutations> <iterations> ```
 
 
-### Contributors ###
-Joshua Sobel and Debasmita Lohar
+## Contributors ##
+- Joshua Sobel
+- Debasmita Lohar
 
