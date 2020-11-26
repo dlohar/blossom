@@ -78,3 +78,5 @@ Supported types: Numerical (int, float, double), Array, Pointer, Structure
 - Joshua Sobel
 - Debasmita Lohar
 
+## Acknowledgements ##
+Some portions of the llvm infrustructure has been inspired by and sometimes directly taken from the example LLVM-passes of llvm-tutor project (see the LLVM_tutor_LICENSE).
