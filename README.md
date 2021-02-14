@@ -7,7 +7,6 @@ We then use these ranges to verify numerical kernels with our extension of [Dais
 <a id="1">[1]</a> 
 [A Two-Phase Approach for Conditional Floating-Point Verification](https://people.mpi-sws.org/~dlohar/assets/documents/tacas2021.pdf), Debasmita Lohar, Clothilde Jeangoudoux, Joshua Sobel, Eva Darulova, and Maria Christakis, TACAS 2021.
 
-
 ## Software Dependencies ##
 - CMAKE
 - LLVM 10
@@ -96,8 +95,11 @@ Supported types: Numerical (int, float, double), Array, Pointer, Structure
 - numerical\_kernel**i**\_**j**\_size = <array\_len> (**j** indicates **j**th input of kernel **i** is an array of <array\_len>)
 
 ## Contributors ##
-- Joshua Sobel
 - Debasmita Lohar
+- Clothilde Jeangoudoux
+- Joshua Sobel
+- Eva Darulova
+- Maria Christakis
 
 ## Acknowledgements ##
 Some portions of the llvm infrustructure has been inspired by and sometimes directly taken from the example LLVM-passes of llvm-tutor project (see the LLVM_tutor_LICENSE).
