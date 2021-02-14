@@ -1,0 +1,10 @@
+#!/bin/bash --posix
+
+SCALACLASSPATH="../../kernelAnalyzer/Daisy-assembly-0.1.jar"
+
+TMP=$LC_NUMERIC
+LC_NUMERIC=en_US.UTF-8
+
+java -Xmx2G -Xms512M -Xss64M -classpath "${SCALACLASSPATH}" -Dscala.usejavacp=false scala.tools.nsc.MainGenericRunner -classpath "${SCALACLASSPATH}" daisy.Main $@ 2>&1 | tee -i last.log
+
+LC_NUMERIC=$TMP
